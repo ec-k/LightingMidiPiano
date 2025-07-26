@@ -385,7 +385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ba9ee394d555bfb4f8e46590ada8aa5e, type: 3}
       propertyPath: m_Name
-      value: SNP.Piano
+      value: Piano
       objectReference: {fileID: 0}
     - target: {fileID: 1324868781669642918, guid: ba9ee394d555bfb4f8e46590ada8aa5e, type: 3}
       propertyPath: m_IsActive
@@ -1014,7 +1014,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.8392157, g: 0.93972117, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1296,7 +1296,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: -0.45, y: 2, z: 0}
+  m_LocalPosition: {x: -0.45, y: 2, z: -0.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1474,7 +1474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb8f4595e0f8b5647bfa0987ef30fbb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyboardKeys:
+  _keyboardKeys:
   - {fileID: 278105111}
   - {fileID: 278105110}
   - {fileID: 278105109}
@@ -1563,9 +1563,11 @@ MonoBehaviour:
   - {fileID: 278105026}
   - {fileID: 278105025}
   - {fileID: 278105023}
-  keyMaterial: {fileID: 2100000, guid: 8c44dc1f49fbc43478acc545986179ac, type: 2}
-  _emissionColor: {r: 0, g: 1.4913801, b: 2.270603, a: 1}
+  _pressedBaseColor: {r: 0, g: 0.3847542, b: 1.517149, a: 1}
+  _pressedEmissionColor: {r: 0.06766655, g: 0.852573, b: 1.3041189, a: 1}
   _maxIntensity: 2
+  _defaultWhiteKeyColor: {r: 1, g: 1, b: 1, a: 1}
+  _defaultBlackKeyColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!4 &1900937290
 Transform:
   m_ObjectHideFlags: 0
