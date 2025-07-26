@@ -1,0 +1,16 @@
+{
+    "name": "LightingMidiPiano.Editor",
+    "rootNamespace": "LightingMidiPiano.Editor",
+    "references": [
+        "GUID:2054d2c4c7f6b8a44a2f2fefda899beb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
