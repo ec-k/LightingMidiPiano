@@ -1474,7 +1474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb8f4595e0f8b5647bfa0987ef30fbb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyboardKeys:
+  KeyboardKeys:
   - {fileID: 278105111}
   - {fileID: 278105110}
   - {fileID: 278105109}
