@@ -4,174 +4,171 @@ using Minis;
 using System.Linq;
 using System.Collections.Generic;
 
-public class VirtualKeyboardController : MonoBehaviour
+namespace LightingMidiPiano
 {
-    // Array of virtual keyboard GameObjects
-    // Needs to consider the offset between array index and MIDI note number
-    // E.g., keyboardKeys[0] corresponds to MIDI note 60 (C4)
-    public GameObject[] keyboardKeys;
-
-    // List of currently active MidiDevices
-    private List<MidiDevice> _midiDevices = new List<MidiDevice>();
-
-    void OnEnable()
+    public class VirtualKeyboardController : MonoBehaviour
     {
-        // Get and subscribe to all existing MIDI devices
-        FindAndSubscribeMidiDevices();
+        public GameObject[] keyboardKeys;
+        [SerializeField] Material keyMaterial;
+        [ColorUsage(true, true)]
+        [SerializeField] Color _emissionColor = new Color(187f / 255f, 106f / 255f, 79f / 255f);
+        [SerializeField] float _maxIntensity = 2f;
 
-        // Register event to subscribe when a new device is connected
-        InputSystem.onDeviceChange += OnDeviceChange;
-    }
+        Renderer[] _keyRenderers;
+        MaterialPropertyBlock _propertyBlock;
+        List<MidiDevice> _midiDevices = new List<MidiDevice>();
+        static readonly int EmissionColorID = Shader.PropertyToID("_EmissionColor");
 
-    void OnDisable()
-    {
-        // Unsubscribe from events when the application quits or the script is disabled
-        InputSystem.onDeviceChange -= OnDeviceChange;
-        UnsubscribeAllMidiDevices();
-    }
+        const int MidiNoteA0 = 21;
+        int _firstMidiNoteForMapping;
 
-    private void FindAndSubscribeMidiDevices()
-    {
-        // Unsubscribe from existing subscriptions (to avoid duplicates when re-running)
-        UnsubscribeAllMidiDevices();
-        _midiDevices.Clear(); // Also clear the list
-
-        // Get all MidiDevices, add them to the list, and subscribe
-        foreach (var device in InputSystem.devices.OfType<MidiDevice>())
+        void Start()
         {
-            _midiDevices.Add(device);
-            SubscribeMidiDevice(device);
+            _propertyBlock = new();
+            _keyRenderers = new Renderer[keyboardKeys.Length];
+
+            for(var i=0;i<keyboardKeys.Length;i++)
+                if (keyboardKeys[i] != null)
+                {
+                    _keyRenderers[i] = keyboardKeys[i].GetComponent<Renderer>();
+                    _keyRenderers[i].material = keyMaterial;
+                }
+
+            _firstMidiNoteForMapping = MidiNoteA0;
         }
 
-        if (_midiDevices.Count == 0)
+        void OnEnable()
         {
-            Debug.LogWarning("No MIDI devices found in Input System. Is your MIDI keyboard connected and recognized? And is Minis initialized correctly?");
+            FindAndSubscribeMidiDevices();
+            InputSystem.onDeviceChange += OnDeviceChange;
         }
-    }
 
-    private void SubscribeMidiDevice(MidiDevice device)
-    {
-        // Subscribe to onWillNoteOn and onWillNoteOff events
-        device.onWillNoteOn += OnMidiNoteOn;
-        device.onWillNoteOff += OnMidiNoteOff;
-        Debug.Log($"Subscribed to MIDI device: {device.displayName}");
-    }
-
-    private void UnsubscribeAllMidiDevices()
-    {
-        foreach (var device in _midiDevices)
+        void OnDisable()
         {
-            if (device != null) // Check if the device has already been destroyed
+            InputSystem.onDeviceChange -= OnDeviceChange;
+            UnsubscribeAllMidiDevices();
+        }
+
+        private void FindAndSubscribeMidiDevices()
+        {
+            UnsubscribeAllMidiDevices();
+            _midiDevices.Clear();
+
+            foreach (var device in InputSystem.devices.OfType<MidiDevice>())
             {
-                device.onWillNoteOn -= OnMidiNoteOn;
-                device.onWillNoteOff -= OnMidiNoteOff;
+                _midiDevices.Add(device);
+                SubscribeMidiDevice(device);
+            }
+
+            if (_midiDevices.Count == 0)
+            {
+                Debug.LogWarning("No MIDI devices found in Input System. Is your MIDI keyboard connected and recognized? And is Minis initialized correctly?");
             }
         }
-        _midiDevices.Clear();
-    }
 
-    // InputSystem device change event handler
-    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
-    {
-        if (device is MidiDevice midiDevice)
+        private void SubscribeMidiDevice(MidiDevice device)
         {
-            if (change == InputDeviceChange.Added || change == InputDeviceChange.Reconnected)
+            device.onWillNoteOn += OnMidiNoteOn;
+            device.onWillNoteOff += OnMidiNoteOff;
+            Debug.Log($"Subscribed to MIDI device: {device.displayName}");
+        }
+
+        private void UnsubscribeAllMidiDevices()
+        {
+            foreach (var device in _midiDevices)
             {
-                // If a new MidiDevice is added, subscribe to it and add to the list
-                if (!_midiDevices.Contains(midiDevice))
+                if (device != null) // Check if the device has already been destroyed
                 {
-                    _midiDevices.Add(midiDevice);
-                    SubscribeMidiDevice(midiDevice);
+                    device.onWillNoteOn -= OnMidiNoteOn;
+                    device.onWillNoteOff -= OnMidiNoteOff;
                 }
             }
-            else if (change == InputDeviceChange.Removed || change == InputDeviceChange.Disconnected)
+            _midiDevices.Clear();
+        }
+
+        private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+        {
+            if (device is MidiDevice midiDevice)
             {
-                // If a device is disconnected, unsubscribe and remove from the list
-                if (_midiDevices.Contains(midiDevice))
+                if (change == InputDeviceChange.Added || change == InputDeviceChange.Reconnected)
                 {
-                    midiDevice.onWillNoteOn -= OnMidiNoteOn;
-                    midiDevice.onWillNoteOff -= OnMidiNoteOff;
-                    _midiDevices.Remove(midiDevice);
-                    Debug.Log($"Unsubscribed from MIDI device: {midiDevice.displayName}");
+                    if (!_midiDevices.Contains(midiDevice))
+                    {
+                        _midiDevices.Add(midiDevice);
+                        SubscribeMidiDevice(midiDevice);
+                    }
+                }
+                else if (change == InputDeviceChange.Removed || change == InputDeviceChange.Disconnected)
+                {
+                    if (_midiDevices.Contains(midiDevice))
+                    {
+                        midiDevice.onWillNoteOn -= OnMidiNoteOn;
+                        midiDevice.onWillNoteOff -= OnMidiNoteOff;
+                        _midiDevices.Remove(midiDevice);
+                        Debug.Log($"Unsubscribed from MIDI device: {midiDevice.displayName}");
+                    }
                 }
             }
         }
-    }
 
-    // MIDI Note On event handler
-    void OnMidiNoteOn(MidiNoteControl noteControl, float velocity)
-    {
-        // Get the note number from MidiNoteControl
-        int noteNumber = noteControl.noteNumber; // MidiNoteControl should have a noteNumber property
-
-        Debug.Log($"Note On: {noteNumber}, Velocity: {velocity}");
-
-        // Convert MIDI note number to virtual keyboard index
-        int keyIndex = MapMidiNoteToKeyIndex(noteNumber);
-
-        if (keyIndex != -1 && keyIndex < keyboardKeys.Length && keyboardKeys[keyIndex] != null)
+        void OnMidiNoteOn(MidiNoteControl noteControl, float velocity)
         {
-            // Logic to light up the key
-            SetKeyLight(keyboardKeys[keyIndex], true, velocity);
+            var keyIndex = MapMidiNoteToKeyIndex(noteControl.noteNumber);
+            if (IsValidKeyIndex(keyIndex))
+                SetKeyLight(keyIndex, true);
+       }
+
+        void OnMidiNoteOff(MidiNoteControl noteControl)
+        {
+            var keyIndex = MapMidiNoteToKeyIndex(noteControl.noteNumber);
+            if (IsValidKeyIndex(keyIndex))
+                SetKeyLight(keyIndex, false);
         }
-    }
 
-    // MIDI Note Off event handler
-    void OnMidiNoteOff(MidiNoteControl noteControl)
-    {
-        // Get the note number from MidiNoteControl
-        int noteNumber = noteControl.noteNumber;
-
-        Debug.Log($"Note Off: {noteNumber}");
-
-        // Convert MIDI note number to virtual keyboard index
-        int keyIndex = MapMidiNoteToKeyIndex(noteNumber);
-
-        if (keyIndex != -1 && keyIndex < keyboardKeys.Length && keyboardKeys[keyIndex] != null)
+        void SetKeyLight(int keyIndex, bool isOn, float velocity)
         {
-            // Logic to revert the key to its original state
-            SetKeyLight(keyboardKeys[keyIndex], false);
-        }
-    }
+            var keyRenderer = _keyRenderers[keyIndex];
+            if (keyRenderer == null) return;
 
-    // Helper function for lighting up/turning off keys
-    private void SetKeyLight(GameObject keyObject, bool isOn, float velocity = 0)
-    {
-        Renderer keyRenderer = keyObject.GetComponent<Renderer>();
-        if (keyRenderer != null)
-        {
-            Material material = keyRenderer.material; // Modify the instantiated material directly
-
+            keyRenderer.GetPropertyBlock(_propertyBlock);
             if (isOn)
             {
-                // Example: Adjust emission intensity based on velocity
-                material.EnableKeyword("_EMISSION");
-                material.SetColor("_EmissionColor", Color.yellow * (velocity + 0.1f)); // 0.1f is minimum emission
-                // material.color = Color.Lerp(Color.gray, Color.yellow, velocity); // To change the color itself
+                var intensity = Mathf.Lerp(0.1f, _maxIntensity, velocity);
+                var finalColor = _emissionColor * intensity;
+                _propertyBlock.SetColor(EmissionColorID, finalColor);
             }
             else
-            {
-                // Example: Turn off emission and revert color
-                material.DisableKeyword("_EMISSION");
-                material.SetColor("_EmissionColor", Color.black); // Turn off emission completely
-                // material.color = Color.white; // To revert to normal color
-            }
+                _propertyBlock.SetColor(EmissionColorID, Color.black);
+
+            keyRenderer.SetPropertyBlock(_propertyBlock);
         }
-    }
 
-    // Logic to map MIDI note number to virtual keyboard array index
-    // Adjust this to match your virtual keyboard's layout
-    private int MapMidiNoteToKeyIndex(int midiNoteNumber)
-    {
-        // Example: Assuming the virtual keyboard starts from MIDI note 60 (C4) for an 88-key piano
-        // Here, index 0 of the keyboardKeys array corresponds to MIDI note 60.
-        const int firstMidiNote = 60; // MIDI note number of the lowest note on the virtual keyboard (e.g., C4)
-        int index = midiNoteNumber - firstMidiNote;
-
-        if (index >= 0 && index < keyboardKeys.Length)
+        void SetKeyLight(int keyIndex, bool isOn)
         {
-            return index;
+            var keyRenderer = _keyRenderers[keyIndex];
+            if (keyRenderer == null) return;
+
+            keyRenderer.GetPropertyBlock(_propertyBlock);
+            if (isOn)
+                _propertyBlock.SetColor(EmissionColorID, _emissionColor);
+            else
+                _propertyBlock.SetColor(EmissionColorID, Color.black);
+
+            keyRenderer.SetPropertyBlock(_propertyBlock);
         }
-        return -1; // No corresponding key found
+
+        int MapMidiNoteToKeyIndex(int midiNoteNumber)
+        {
+            int index = midiNoteNumber - _firstMidiNoteForMapping;
+
+            if (index >= 0 && index < keyboardKeys.Length)
+            {
+                return index;
+            }
+            return -1;
+        }
+
+        bool IsValidKeyIndex(int index)
+            => index >= 0 && index < _keyRenderers.Length;
     }
 }

@@ -1360,7 +1360,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1900937290}
   - component: {fileID: 1900937289}
-  - component: {fileID: 1900937291}
   m_Layer: 0
   m_Name: Keys
   m_TagString: Untagged
@@ -1469,6 +1468,9 @@ MonoBehaviour:
   - {fileID: 278105026}
   - {fileID: 278105025}
   - {fileID: 278105023}
+  keyMaterial: {fileID: 2100000, guid: 8c44dc1f49fbc43478acc545986179ac, type: 2}
+  _emissionColor: {r: 0, g: 0.9675921, b: 1.4731438, a: 1}
+  _maxIntensity: 2
 --- !u!4 &1900937290
 Transform:
   m_ObjectHideFlags: 0
@@ -1485,19 +1487,6 @@ Transform:
   - {fileID: 278105024}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1900937291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900937288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb8f4595e0f8b5647bfa0987ef30fbb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyboardKeys: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
