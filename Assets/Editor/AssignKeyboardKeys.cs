@@ -70,11 +70,11 @@ namespace LightingMidiPiano.Editor
                 return;
             }
 
-            targetController.keyboardKeys = new GameObject[sortedKeys.Count];
+            targetController.KeyboardKeys = new GameObject[sortedKeys.Count];
 
             for (int i = 0; i < sortedKeys.Count; i++)
             {
-                targetController.keyboardKeys[i] = sortedKeys[i];
+                targetController.KeyboardKeys[i] = sortedKeys[i];
             }
 
             Debug.Log($"Successfully assigned {sortedKeys.Count} keyboard keys to VirtualKeyboardController.");

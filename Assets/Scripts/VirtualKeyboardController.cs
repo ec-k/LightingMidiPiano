@@ -8,16 +8,19 @@ namespace LightingMidiPiano
 {
     public class VirtualKeyboardController : MonoBehaviour
     {
-        public GameObject[] keyboardKeys;
-        [SerializeField] Material keyMaterial;
+        public GameObject[] KeyboardKeys;
+        [SerializeField] Color _pressedBaseColor = new Color(187f / 255f, 106f / 255f, 79f / 255f);
         [ColorUsage(true, true)]
-        [SerializeField] Color _emissionColor = new Color(187f / 255f, 106f / 255f, 79f / 255f);
+        [SerializeField] Color _pressedEmissionColor = new Color(187f / 255f, 106f / 255f, 79f / 255f);
         [SerializeField] float _maxIntensity = 2f;
+        [SerializeField] Color _defaultWhiteKeyColor = Color.white;
+        [SerializeField] Color _defaultBlackKeyColor = Color.black;
 
         Renderer[] _keyRenderers;
         MaterialPropertyBlock _propertyBlock;
         List<MidiDevice> _midiDevices = new List<MidiDevice>();
         static readonly int EmissionColorID = Shader.PropertyToID("_EmissionColor");
+        static readonly int BaseColorID = Shader.PropertyToID("_BaseColor");
 
         const int MidiNoteA0 = 21;
         int _firstMidiNoteForMapping;
@@ -25,14 +28,11 @@ namespace LightingMidiPiano
         void Start()
         {
             _propertyBlock = new();
-            _keyRenderers = new Renderer[keyboardKeys.Length];
+            _keyRenderers = new Renderer[KeyboardKeys.Length];
 
-            for(var i=0;i<keyboardKeys.Length;i++)
-                if (keyboardKeys[i] != null)
-                {
-                    _keyRenderers[i] = keyboardKeys[i].GetComponent<Renderer>();
-                    _keyRenderers[i].material = keyMaterial;
-                }
+            for (var i = 0; i < KeyboardKeys.Length; i++)
+                if (KeyboardKeys[i] != null)
+                    _keyRenderers[i] = KeyboardKeys[i].GetComponent<Renderer>();
 
             _firstMidiNoteForMapping = MidiNoteA0;
         }
@@ -134,12 +134,18 @@ namespace LightingMidiPiano
             if (isOn)
             {
                 var intensity = Mathf.Lerp(0.1f, _maxIntensity, velocity);
-                var finalColor = _emissionColor * intensity;
+                var finalColor = _pressedEmissionColor * intensity;
                 _propertyBlock.SetColor(EmissionColorID, finalColor);
+                _propertyBlock.SetColor(BaseColorID, _pressedBaseColor);
             }
             else
+            {
+                var midiNote = _firstMidiNoteForMapping + keyIndex;
+                var isBlack = IsBlackKey(midiNote);
+                var baseColor = isBlack ? _defaultBlackKeyColor : _defaultWhiteKeyColor;
+                _propertyBlock.SetColor(BaseColorID, baseColor);
                 _propertyBlock.SetColor(EmissionColorID, Color.black);
-
+            }
             keyRenderer.SetPropertyBlock(_propertyBlock);
         }
 
@@ -150,10 +156,18 @@ namespace LightingMidiPiano
 
             keyRenderer.GetPropertyBlock(_propertyBlock);
             if (isOn)
-                _propertyBlock.SetColor(EmissionColorID, _emissionColor);
+            {
+                _propertyBlock.SetColor(BaseColorID, _pressedBaseColor);
+                _propertyBlock.SetColor(EmissionColorID, _pressedEmissionColor);
+            }
             else
+            {
+                var midiNote = _firstMidiNoteForMapping + keyIndex;
+                var isBlack = IsBlackKey(midiNote);
+                var baseColor = isBlack ? _defaultBlackKeyColor : _defaultWhiteKeyColor;
+                _propertyBlock.SetColor(BaseColorID, baseColor);
                 _propertyBlock.SetColor(EmissionColorID, Color.black);
-
+            }
             keyRenderer.SetPropertyBlock(_propertyBlock);
         }
 
@@ -161,7 +175,7 @@ namespace LightingMidiPiano
         {
             int index = midiNoteNumber - _firstMidiNoteForMapping;
 
-            if (index >= 0 && index < keyboardKeys.Length)
+            if (index >= 0 && index < KeyboardKeys.Length)
             {
                 return index;
             }
@@ -170,5 +184,16 @@ namespace LightingMidiPiano
 
         bool IsValidKeyIndex(int index)
             => index >= 0 && index < _keyRenderers.Length;
+
+        bool IsBlackKey(int midiNoteNumber)
+        {
+            var noteInOctave = midiNoteNumber % 12;
+
+            return noteInOctave == 1 || // C#
+                   noteInOctave == 3 || // D#
+                   noteInOctave == 6 || // F#
+                   noteInOctave == 8 || // G#
+                   noteInOctave == 10;  // A#
+        }
     }
 }
