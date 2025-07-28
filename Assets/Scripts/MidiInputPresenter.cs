@@ -2,7 +2,6 @@ using Minis;
 using R3;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine.InputSystem;
 using VContainer.Unity;
@@ -13,14 +12,19 @@ namespace LightingMidiPiano
     {
         readonly ActiveNoteModel _model;
         readonly KeyboardView _keyboardView;
+        readonly NoteBarView _noteBarView;
         readonly CompositeDisposable _disposables = new();
 
         readonly List<MidiDevice> _subscribedDevices = new();
 
-        public MidiInputPresenter(ActiveNoteModel model, KeyboardView keyboardView)
+        public MidiInputPresenter(
+            ActiveNoteModel model,
+            KeyboardView keyboardView,
+            NoteBarView noteBarView)
         {
             _model = model;
             _keyboardView = keyboardView;
+            _noteBarView = noteBarView;
         }
 
         void IStartable.Start()
@@ -29,6 +33,10 @@ namespace LightingMidiPiano
                 .Subscribe(info =>
                 {
                     _keyboardView.SetKeyOn(info.NoteNumber, info.Velocity);
+
+                    var keyTransform= _keyboardView.GetKeyTransform(info.NoteNumber);
+                    if (keyTransform is not null)
+                        _noteBarView.CreateNoteBar(info.NoteNumber, info.Velocity, keyTransform);
                 })
                 .AddTo(_disposables);
 
@@ -36,6 +44,7 @@ namespace LightingMidiPiano
                 .Subscribe(info =>
                 {
                     _keyboardView.SetKeyOff(info.NoteNumber);
+                    _noteBarView.TriggerNoteOff(info.NoteNumber);
                 })
                 .AddTo(_disposables);
 

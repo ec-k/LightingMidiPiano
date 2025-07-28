@@ -28,6 +28,19 @@ namespace LightingMidiPiano
                     _keyRenderers[i] = KeyboardKeys[i].GetComponent<Renderer>();
         }
 
+        /// <summary>
+        /// Returns a key transform corresponding to specified MIDI note number
+        /// </summary>
+        /// <param name="noteNumber">MIDI note number</param>
+        /// <returns>A transform of corresponding key. When it is not found, this function returns null.</returns>
+        public Transform GetKeyTransform(int noteNumber)
+        {
+            var keyIndex = MapMidiNoteToKeyIndex(noteNumber);
+            if (!IsValidKeyIndex(keyIndex)) return null;
+
+            return KeyboardKeys[keyIndex]?.transform;
+        }
+
         public void SetKeyOn(int noteNumber, float velocity)
         {
             var keyIndex = MapMidiNoteToKeyIndex(noteNumber);

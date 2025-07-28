@@ -10,6 +10,7 @@ namespace LightingMidiPiano
             builder.Register<ActiveNoteModel>(Lifetime.Singleton);
 
             builder.RegisterComponentInHierarchy<KeyboardView>();
+            builder.RegisterComponentInHierarchy<NoteBarView>();
 
             builder.RegisterEntryPoint<MidiInputPresenter>();
         }

@@ -1203,7 +1203,7 @@ Transform:
   m_GameObject: {fileID: 867498820}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1503,6 +1503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1900937290}
   - component: {fileID: 1900937291}
+  - component: {fileID: 1900937292}
   m_Layer: 0
   m_Name: Keys
   m_TagString: Untagged
@@ -1632,6 +1633,20 @@ MonoBehaviour:
   _maxIntensity: 2
   _defaultWhiteKeyColor: {r: 1, g: 1, b: 1, a: 1}
   _defaultBlackKeyColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &1900937292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900937288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acea7fa35d8b3c144be238b7fcaef379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _noteBarPrefab: {fileID: 1909078362432131550, guid: 161ae26d591e3e945af36738d97ecc66, type: 3}
+  _positionOffset: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
