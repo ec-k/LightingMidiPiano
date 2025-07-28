@@ -6,7 +6,7 @@ namespace LightingMidiPiano
     public class NoteBarView : MonoBehaviour
     {
         [SerializeField] NoteBarController _noteBarPrefab;
-        [SerializeField] Vector3 _positionOffset;
+        [SerializeField] float _zPositionOffset = -0.058726904f;
 
         readonly Dictionary<int, NoteBarController> _activeNoteBars = new();
 
@@ -20,7 +20,8 @@ namespace LightingMidiPiano
         {
             if (_activeNoteBars.ContainsKey(noteNumber)) return;
 
-            Vector3 spawnPosition = keyTransform.position + _positionOffset;
+            var keyPosition = keyTransform.position;
+            var spawnPosition = new Vector3(keyPosition.x, keyPosition.y, _zPositionOffset);
             var noteBarInstance = Instantiate(_noteBarPrefab, spawnPosition, Quaternion.identity);
 
             // TODO: ベロシティに応じて色や太さを変えるならここ
