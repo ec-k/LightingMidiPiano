@@ -57,7 +57,7 @@ namespace LightingMidiPiano
         void IDisposable.Dispose()
         {
             InputSystem.onDeviceChange -= OnDeviceChange;
-            foreach (var device in _subscribedDevices)
+            foreach (var device in _subscribedDevices.ToList())
                 UnsubscribeFromDevice(device);
             _subscribedDevices.Clear();
 
