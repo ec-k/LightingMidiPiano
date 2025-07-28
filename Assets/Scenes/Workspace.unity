@@ -1395,6 +1395,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1243171538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1243171540}
+  - component: {fileID: 1243171539}
+  m_Layer: 0
+  m_Name: LifetimeScopes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1243171539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243171538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7d6af1ee93f2246b0dab8a86bac536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
+--- !u!4 &1243171540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243171538}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.59973466, y: -0.5300244, z: -0.34691668}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1532376358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,6 +1503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1900937290}
   - component: {fileID: 1900937289}
+  - component: {fileID: 1900937291}
   m_Layer: 0
   m_Name: Keys
   m_TagString: Untagged
@@ -1469,7 +1518,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900937288}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb8f4595e0f8b5647bfa0987ef30fbb1, type: 3}
   m_Name: 
@@ -1584,6 +1633,112 @@ Transform:
   - {fileID: 278105024}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1900937291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900937288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 977eab7e57141ef41b38f0d7833bb249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KeyboardKeys:
+  - {fileID: 278105111}
+  - {fileID: 278105110}
+  - {fileID: 278105109}
+  - {fileID: 278105108}
+  - {fileID: 278105107}
+  - {fileID: 278105106}
+  - {fileID: 278105105}
+  - {fileID: 278105104}
+  - {fileID: 278105103}
+  - {fileID: 278105102}
+  - {fileID: 278105101}
+  - {fileID: 278105100}
+  - {fileID: 278105099}
+  - {fileID: 278105098}
+  - {fileID: 278105097}
+  - {fileID: 278105096}
+  - {fileID: 278105095}
+  - {fileID: 278105094}
+  - {fileID: 278105093}
+  - {fileID: 278105092}
+  - {fileID: 278105091}
+  - {fileID: 278105090}
+  - {fileID: 278105089}
+  - {fileID: 278105088}
+  - {fileID: 278105087}
+  - {fileID: 278105086}
+  - {fileID: 278105085}
+  - {fileID: 278105084}
+  - {fileID: 278105083}
+  - {fileID: 278105082}
+  - {fileID: 278105081}
+  - {fileID: 278105080}
+  - {fileID: 278105079}
+  - {fileID: 278105078}
+  - {fileID: 278105077}
+  - {fileID: 278105076}
+  - {fileID: 278105075}
+  - {fileID: 278105074}
+  - {fileID: 278105073}
+  - {fileID: 278105072}
+  - {fileID: 278105071}
+  - {fileID: 278105070}
+  - {fileID: 278105069}
+  - {fileID: 278105068}
+  - {fileID: 278105067}
+  - {fileID: 278105066}
+  - {fileID: 278105065}
+  - {fileID: 278105064}
+  - {fileID: 278105063}
+  - {fileID: 278105062}
+  - {fileID: 278105061}
+  - {fileID: 278105060}
+  - {fileID: 278105059}
+  - {fileID: 278105058}
+  - {fileID: 278105057}
+  - {fileID: 278105056}
+  - {fileID: 278105055}
+  - {fileID: 278105054}
+  - {fileID: 278105053}
+  - {fileID: 278105052}
+  - {fileID: 278105051}
+  - {fileID: 278105050}
+  - {fileID: 278105049}
+  - {fileID: 278105048}
+  - {fileID: 278105047}
+  - {fileID: 278105046}
+  - {fileID: 278105045}
+  - {fileID: 278105044}
+  - {fileID: 278105043}
+  - {fileID: 278105042}
+  - {fileID: 278105041}
+  - {fileID: 278105040}
+  - {fileID: 278105039}
+  - {fileID: 278105038}
+  - {fileID: 278105037}
+  - {fileID: 278105036}
+  - {fileID: 278105035}
+  - {fileID: 278105034}
+  - {fileID: 278105033}
+  - {fileID: 278105032}
+  - {fileID: 278105031}
+  - {fileID: 278105030}
+  - {fileID: 278105029}
+  - {fileID: 278105028}
+  - {fileID: 278105027}
+  - {fileID: 278105026}
+  - {fileID: 278105025}
+  - {fileID: 278105023}
+  _pressedBaseColor: {r: 0, g: 0.5550244, b: 0.7490196, a: 1}
+  _pressedEmissionColor: {r: 0.03626161, g: 0.4568826, b: 0.69886, a: 1}
+  _maxIntensity: 2
+  _defaultWhiteKeyColor: {r: 1, g: 1, b: 1, a: 1}
+  _defaultBlackKeyColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1594,3 +1749,4 @@ SceneRoots:
   - {fileID: 1159793876}
   - {fileID: 1532376360}
   - {fileID: 867498824}
+  - {fileID: 1243171540}

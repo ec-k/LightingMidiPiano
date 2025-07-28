@@ -7,7 +7,7 @@ namespace LightingMidiPiano.Editor
 {
     public class AssignKeyboardKeys : EditorWindow
     {
-        public VirtualKeyboardController targetController;
+        public KeyboardView targetController;
         public GameObject keyboardParent;
         public string keyNamePrefix = "Key.";
 
@@ -21,8 +21,8 @@ namespace LightingMidiPiano.Editor
         {
             GUILayout.Label("Assign Keyboard Keys to Controller", EditorStyles.boldLabel);
 
-            targetController = (VirtualKeyboardController)EditorGUILayout.ObjectField(
-                "Target Controller", targetController, typeof(VirtualKeyboardController), true);
+            targetController = (KeyboardView)EditorGUILayout.ObjectField(
+                "Target Controller", targetController, typeof(KeyboardView), true);
 
             keyboardParent = (GameObject)EditorGUILayout.ObjectField(
                 "Keyboard Parent", keyboardParent, typeof(GameObject), true);
