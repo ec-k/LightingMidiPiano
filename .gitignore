@@ -101,3 +101,5 @@ InitTestScene*.unity*
 # Third-party assets
 /[Aa]ssets/SkySeries Freebie/
 /[Aa]ssets/SkySeries Freebie.meta
+/[Aa]ssets/Packages/
+/[Aa]ssets/Packages.meta
