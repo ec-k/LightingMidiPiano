@@ -1645,8 +1645,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acea7fa35d8b3c144be238b7fcaef379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _noteBarPrefab: {fileID: 1909078362432131550, guid: 161ae26d591e3e945af36738d97ecc66, type: 3}
-  _positionOffset: {x: 0, y: 0, z: 0}
+  _noteBarPrefab: {fileID: 4942085693012843495, guid: 161ae26d591e3e945af36738d97ecc66, type: 3}
+  _positionOffset: {x: 0, y: 0, z: -0.06}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
