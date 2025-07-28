@@ -1563,8 +1563,8 @@ MonoBehaviour:
   - {fileID: 278105026}
   - {fileID: 278105025}
   - {fileID: 278105023}
-  _pressedBaseColor: {r: 0, g: 0.3847542, b: 1.517149, a: 1}
-  _pressedEmissionColor: {r: 0.06766655, g: 0.852573, b: 1.3041189, a: 1}
+  _pressedBaseColor: {r: 0, g: 0.5550244, b: 0.7490196, a: 1}
+  _pressedEmissionColor: {r: 0.03626161, g: 0.45688257, b: 0.69886005, a: 1}
   _maxIntensity: 2
   _defaultWhiteKeyColor: {r: 1, g: 1, b: 1, a: 1}
   _defaultBlackKeyColor: {r: 0, g: 0, b: 0, a: 1}
