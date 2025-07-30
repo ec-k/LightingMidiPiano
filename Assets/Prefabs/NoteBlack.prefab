@@ -50,8 +50,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4526752417159729432, guid: 161ae26d591e3e945af36738d97ecc66, type: 3}
       propertyPath: m_Name
-      value: BlackNote
+      value: NoteBlack
       objectReference: {fileID: 0}
+    - target: {fileID: 7297192059249504933, guid: 161ae26d591e3e945af36738d97ecc66, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 61ee4d39d8ab0014bb482b13801c5b4d, type: 2}
     - target: {fileID: 7297192059249504933, guid: 161ae26d591e3e945af36738d97ecc66, type: 3}
       propertyPath: m_Positions.Array.data[1].z
       value: 0
