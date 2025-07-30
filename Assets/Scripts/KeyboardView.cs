@@ -41,6 +41,19 @@ namespace LightingMidiPiano
             return KeyboardKeys[keyIndex]?.transform;
         }
 
+        public void SetKeyOn(int noteNumber)
+        {
+            var keyIndex = MapMidiNoteToKeyIndex(noteNumber);
+            if (!IsValidKeyIndex(keyIndex)) return;
+
+            var keyRenderer = _keyRenderers[keyIndex];
+            keyRenderer.GetPropertyBlock(_propertyBlock);
+            _propertyBlock.SetColor(EmissionColorID, _pressedEmissionColor);
+            _propertyBlock.SetColor(BaseColorID, _pressedBaseColor);
+
+            keyRenderer.SetPropertyBlock(_propertyBlock);
+        }
+
         public void SetKeyOn(int noteNumber, float velocity)
         {
             var keyIndex = MapMidiNoteToKeyIndex(noteNumber);

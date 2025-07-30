@@ -32,7 +32,7 @@ namespace LightingMidiPiano
             _model.OnNoteOn
                 .Subscribe(info =>
                 {
-                    _keyboardView.SetKeyOn(info.NoteNumber, info.Velocity);
+                    _keyboardView.SetKeyOn(info.NoteNumber);
 
                     var keyTransform= _keyboardView.GetKeyTransform(info.NoteNumber);
                     if (keyTransform is not null)
