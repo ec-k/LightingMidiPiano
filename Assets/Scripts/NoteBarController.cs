@@ -11,21 +11,36 @@ namespace LightingMidiPiano
         State _currentState = State.Growing;
 
         float _objectBreakDistance = 1f;
+        Vector3 _direction = Vector3.back;
+
+        LineRenderer _lineRenderer;
+
+        void Start()
+        {
+            _lineRenderer = GetComponent<LineRenderer>();
+        }
 
         void Update()
         {
             switch (_currentState)
             {
                 case State.Growing:
-                    float growthAmount = _growthSpeed * Time.deltaTime;
-                    transform.localScale += new Vector3(0, 0, growthAmount);
-                    transform.localPosition += new Vector3(0, 0, - growthAmount / 2.0f);
+                    {
+                        var growthAmount = _growthSpeed * Time.deltaTime;
+                        var dPosition = _direction * growthAmount;
+                        var endPoint = _lineRenderer.GetPosition(1);
+                        _lineRenderer.SetPosition(1, endPoint + dPosition);
+                    }
                     break;
                 case State.Scrolling:
-                    transform.position += Vector3.back * _scrollSpeed * Time.deltaTime;
-                    if (transform.position.y > _objectBreakDistance)
                     {
-                        Destroy(gameObject);
+                        var dPosition = _direction * _scrollSpeed * Time.deltaTime;
+                        var startPoint = _lineRenderer.GetPosition(0);
+                        var endPoint = _lineRenderer.GetPosition(1);
+                        _lineRenderer.SetPosition(0, startPoint + dPosition);
+                        _lineRenderer.SetPosition(1, endPoint + dPosition);
+                        if (Mathf.Abs(startPoint.z) > _objectBreakDistance)
+                            Destroy(gameObject);
                     }
                     break;
             }
