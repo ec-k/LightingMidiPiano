@@ -10,7 +10,7 @@ namespace LightingMidiPiano
         enum State { Growing, Scrolling }
         State _currentState = State.Growing;
 
-        float _objectBreakDistance = 1f;
+        float _objectBreakDistance = 0.5f;
         Vector3 _direction = Vector3.back;
 
         LineRenderer _lineRenderer;
