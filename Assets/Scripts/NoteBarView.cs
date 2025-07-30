@@ -5,7 +5,8 @@ namespace LightingMidiPiano
 {
     public class NoteBarView : MonoBehaviour
     {
-        [SerializeField] NoteBarController _noteBarPrefab;
+        [SerializeField] NoteBarController _whiteNoteBarPrefab;
+        [SerializeField] NoteBarController _blackNoteBarPrefab;
         [SerializeField] float _zPositionOffset = -0.058726904f;
 
         readonly Dictionary<int, NoteBarController> _activeNoteBars = new();
@@ -22,7 +23,8 @@ namespace LightingMidiPiano
 
             var keyPosition = keyTransform.position;
             var spawnPosition = new Vector3(keyPosition.x, keyPosition.y, _zPositionOffset);
-            var noteBarInstance = Instantiate(_noteBarPrefab, spawnPosition, Quaternion.identity);
+            var notePrefab = IsBlackKey(noteNumber) ? _blackNoteBarPrefab : _whiteNoteBarPrefab;
+            var noteBarInstance = Instantiate(notePrefab, spawnPosition, Quaternion.identity);
 
             // TODO: ベロシティに応じて色や太さを変えるならここ
 
@@ -36,6 +38,15 @@ namespace LightingMidiPiano
                 noteBar.NoteOff();
                 _activeNoteBars.Remove(noteNumber);
             }
+        }
+
+        bool IsBlackKey(int midiNoteNumber)
+        {
+            return (midiNoteNumber % 12) switch
+            {
+                1 or 3 or 6 or 8 or 10 => true,
+                _ => false,
+            };
         }
     }
 }
