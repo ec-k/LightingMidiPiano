@@ -1296,7 +1296,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: -0.45, y: 2, z: -0.16}
+  m_LocalPosition: {x: -0.45, y: 2.4, z: -0.212}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1646,7 +1646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _noteBarPrefab: {fileID: 4942085693012843495, guid: 161ae26d591e3e945af36738d97ecc66, type: 3}
-  _positionOffset: {x: 0, y: 0, z: -0.06}
+  _zPositionOffset: -0.058726903
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
